@@ -25,7 +25,8 @@ This mono repository contains a simplistic multi-container web application orche
 For local development, I’ve configured volumes such that source code on the host machine syncs to the container's file system to streamline setup and keep development OS / dependency version agnostic. 
 
 ### Goal 
-Adapt a deployment strategy that will allow the web application to be deployed to a Digital Ocean Droplet preferably over GitHub Actions while preserving the local development aspects.
+Adapt a deployment strategy to deploy the app on a Digital Ocean droplet through a CI/CD while preserving the local development aspects.
+
 
 
 
