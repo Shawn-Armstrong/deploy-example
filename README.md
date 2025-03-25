@@ -9,7 +9,7 @@ docker compose --env-file .env.development up
   
 | URL Path             | Container          |
 |----------------------|--------------------|
-| https://localhost/api | Nginx route to backend container  |
+| https://localhost/api/ | Nginx route to backend container  |
 | https://localhost/    | Nginx route to frontend container |
 
 <kbd>![Animation](https://github.com/user-attachments/assets/d4a194fb-874b-47fb-a04e-7f668ba88066)</kbd>
