@@ -1,0 +1,14 @@
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: frontend-app/Dockerfile.prod
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx-certs:/etc/nginx/certs:ro
+    depends_on:
+      - backend-app
+    networks:
+      - app-network
