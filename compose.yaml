@@ -1,0 +1,46 @@
+services:
+
+  backend-app:
+    build:
+      context: ./backend-app
+      dockerfile: Dockerfile
+      target: final
+    environment:
+      - PORT=${BACKEND_PORT}
+    ports:
+      - ${BACKEND_PORT}:${BACKEND_PORT}
+    networks:
+      - app-network
+
+  frontend-app:
+    build:
+      context: ./frontend-app
+      dockerfile: Dockerfile
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    volumes:
+      - ./frontend-app:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=${ENVIRONMENT}
+    networks:
+      - app-network
+
+  nginx:
+    container_name: nginx
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/nginx-certs:/etc/nginx/certs:ro
+    depends_on:
+      - frontend-app
+      - backend-app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
