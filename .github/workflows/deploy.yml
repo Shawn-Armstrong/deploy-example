@@ -34,10 +34,10 @@ jobs:
           echo "FRONTEND_IMAGE=ghcr.io/shawn-armstrong/frontend-app:latest" >> .env.prod
           echo "BACKEND_IMAGE=ghcr.io/shawn-armstrong/backend-app:latest" >> .env.prod
 
-      # - name: Build and push images using Docker Compose
-      #   run: |
-      #     docker compose --env-file .env.prod -f compose.yaml -f compose.prod.yaml build
-      #     docker compose --env-file .env.prod -f compose.yaml -f compose.prod.yaml push
+      - name: Build and push images using Docker Compose
+        run: |
+          docker compose --env-file .env.prod -f compose.yaml -f compose.prod.yaml build
+          docker compose --env-file .env.prod -f compose.yaml -f compose.prod.yaml push
 
       - name: Upload repo to Droplet
         uses: appleboy/scp-action@v0.1.4
