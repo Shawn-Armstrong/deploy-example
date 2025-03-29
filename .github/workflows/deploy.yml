@@ -39,15 +39,23 @@ jobs:
           docker compose --env-file .env.prod -f compose.yaml -f compose.prod.yaml build
           docker compose --env-file .env.prod -f compose.yaml -f compose.prod.yaml push
 
+      - name: Upload Compose files to droplet
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USER }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          source: "compose.yaml,compose.prod.yaml,.env.prod"
+          target: "~/ucsc-deploy"
+
       - name: Deploy to DigitalOcean via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.DROPLET_IP }}
-          username: root
-          key: ${{ secrets.DROPLET_SSH_KEY }}
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USER }}
+          key: ${{ secrets.DO_SSH_KEY }}
           script: |
-            cd ucsc-network || exit 1
-            git pull origin main
+            cd ~/ucsc-deploy
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
             docker compose --env-file .env.prod -f compose.yaml -f compose.prod.yaml pull
             docker compose --env-file .env.prod -f compose.yaml -f compose.prod.yaml up -d
