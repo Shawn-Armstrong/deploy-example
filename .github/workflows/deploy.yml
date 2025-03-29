@@ -57,9 +57,9 @@ jobs:
           key: ${{ secrets.DROPLET_SSH_KEY }}
           debug: true
           source: |
-            compose.yaml
-            compose.prod.yaml
-            .env.prod
+            /home/runner/work/deploy-example/deploy-example/compose.yaml
+            /home/runner/work/deploy-example/deploy-example/compose.prod.yaml
+            /home/runner/work/deploy-example/deploy-example/.env.prod
           target: "/root/ucsc-network/"
           strip_components: 0
           port: 22
