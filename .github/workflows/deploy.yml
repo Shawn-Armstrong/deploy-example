@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -23,8 +24,8 @@ jobs:
         run: |
           echo "BACKEND_PORT=5000" >> .env.prod
           echo "ENVIRONMENT=production" >> .env.prod
-          echo "FRONTEND_IMAGE=ghcr.io/Shawn-Armstrong/frontend-app:latest" >> .env.prod
-          echo "BACKEND_IMAGE=ghcr.io/Shawn-Armstrong/backend-app:latest" >> .env.prod
+          echo "FRONTEND_IMAGE=ghcr.io/shawn-armstrong/frontend-app:latest" >> .env.prod
+          echo "BACKEND_IMAGE=ghcr.io/shawn-armstrong/backend-app:latest" >> .env.prod
 
       - name: Build and push images using Docker Compose
         run: |
