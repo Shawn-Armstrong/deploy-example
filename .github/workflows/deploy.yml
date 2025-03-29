@@ -33,13 +33,11 @@ jobs:
           echo "ENVIRONMENT=production" >> .env.prod
           echo "FRONTEND_IMAGE=ghcr.io/shawn-armstrong/frontend-app:latest" >> .env.prod
           echo "BACKEND_IMAGE=ghcr.io/shawn-armstrong/backend-app:latest" >> .env.prod
-
-      # Debug: List workspace contents
-      - name: Debug List workspace contents
-        run: ls -al
-
-      - name: Debug Print Working Directory
-        run: pwd
+          
+      - name: Build and push images using Docker Compose
+        run: |
+          docker compose --env-file .env.prod -f compose.yaml -f compose.prod.yaml build
+          docker compose --env-file .env.prod -f compose.yaml -f compose.prod.yaml push
 
       - name: Create Remote Directory
         uses: appleboy/ssh-action@v1.0.3
@@ -47,21 +45,7 @@ jobs:
           host: ${{ secrets.DROPLET_IP }}
           username: root
           key: ${{ secrets.DROPLET_SSH_KEY }}
-          script: mkdir -p /root/ucsc-network
-          
-      - name: Debug List entire directory recursively using find
-        run: find .
-      
-      - name: Install tree (for better visual output)
-        run: sudo apt-get update && sudo apt-get install -y tree
-      
-      - name: Debug Print directory tree
-        run: tree -a -i ".git"
-
-      - name: Show home directory
-        run: |
-          echo "Home directory is: ~ -> $(echo ~)"
-          ls -al ~
+          script: mkdir -p /root/ucsc-network  
 
       - name: Upload Compose files to Droplet
         uses: appleboy/scp-action@v0.1.4
