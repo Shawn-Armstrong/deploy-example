@@ -11,5 +11,3 @@ RUN npm run build
 
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
-COPY ./nginx/nginx-certs /etc/nginx/certs
-COPY ./nginx/nginx.prod.conf /etc/nginx/nginx.conf
