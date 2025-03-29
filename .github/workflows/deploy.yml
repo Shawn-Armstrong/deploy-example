@@ -37,6 +37,9 @@ jobs:
       # Debug step: show the files in workspace
       - name: Debug List workspace contents
         run: ls -al
+        
+      - name: Debug List workspace contents2
+        run: pwd
 
       - name: Upload Compose files to Droplet
         uses: appleboy/scp-action@master
