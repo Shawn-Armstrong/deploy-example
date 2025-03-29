@@ -1,5 +1,6 @@
 services:
   backend-app:
+    image: ${BACKEND_IMAGE}
     build:
       context: ./backend-app
       dockerfile: Dockerfile
@@ -14,5 +15,3 @@ services:
 networks:
   app-network:
     driver: bridge
-
-

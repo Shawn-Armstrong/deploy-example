@@ -1,5 +1,6 @@
 services:
   nginx:
+    image: ${FRONTEND_IMAGE}
     build:
       context: .
       dockerfile: frontend-app/Dockerfile.prod
