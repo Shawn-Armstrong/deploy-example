@@ -70,7 +70,7 @@ jobs:
           username: root
           key: ${{ secrets.DROPLET_SSH_KEY }}
           debug: true
-          source: "compose.yaml compose.prod.yaml .env.prod"
+          source: "compose.yaml,compose.prod.yaml,.env.prod"
           target: "/root/ucsc-network"
 
       - name: Deploy to DigitalOcean via SSH
