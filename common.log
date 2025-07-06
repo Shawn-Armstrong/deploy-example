@@ -1,0 +1,2 @@
+curl -k https://localhost/api/test
+tree -I "frontend-app|target|temp|common.log"
