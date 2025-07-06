@@ -1,9 +1,17 @@
 services:
   backend-app:
-    image: ${BACKEND_IMAGE}
+    image: backend-app:dev
     build:
       context: ./backend-app
       dockerfile: Dockerfile
+      target: final
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    environment:
+      - PORT=${BACKEND_PORT}
+    networks:
+      - app-network
+
 
   frontend-app:
     image: ${FRONTEND_IMAGE}
@@ -33,3 +41,7 @@ services:
       - backend-app
     networks:
       - app-network
+
+networks:
+  app-network:
+    driver: bridge
