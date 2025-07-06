@@ -1,12 +1,16 @@
 mod models;
 mod routes;
 mod services;
+mod repository;
+mod app_state;
 
+use crate::app_state::AppState;
 use routes::create_routes;
 use tokio::net::TcpListener;
 use axum::serve;
+use sqlx::postgres::PgPoolOptions;
 use tracing_subscriber;
-use sqlx::{PgPool, postgres::PgPoolOptions, Row};
+use std::sync::Arc;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -21,15 +25,9 @@ async fn main() -> anyhow::Result<()> {
         .connect(db_url)
         .await?;
 
-    // Run a simple query to test the connection
-    let row = sqlx::query("SELECT message FROM greetings LIMIT 1")
-        .fetch_one(&pool)
-        .await?;
+    let state = AppState { db: Arc::new(pool) };
 
-    let greeting: String = row.get("message");
-    tracing::info!(greeting = %greeting, "Fetched greeting from database");
-
-    let app = create_routes(pool);
+    let app = create_routes(state.clone());
     let address = "0.0.0.0:5000";
     tracing::info!("Starting server on {}", address);
 
