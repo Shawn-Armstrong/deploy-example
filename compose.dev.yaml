@@ -1,17 +1,18 @@
 services:
   backend-app:
-    image: backend-app:dev
     build:
       context: ./backend-app
       dockerfile: Dockerfile
-      target: final
+      target: dev
+    image: backend-app:dev
+    volumes:
+      - ./backend-app:/app
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
     environment:
       - PORT=${BACKEND_PORT}
     networks:
       - app-network
-
 
   frontend-app:
     image: ${FRONTEND_IMAGE}
