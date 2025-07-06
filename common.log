@@ -1,2 +1,4 @@
 curl -k https://localhost/api/test
 tree -I "frontend-app|target|temp|common.log"
+docker compose --env-file .env.dev -f compose.yaml -f compose.dev.yaml down
+docker compose --env-file .env.dev -f compose.yaml -f compose.dev.yaml up --build

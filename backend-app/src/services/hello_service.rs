@@ -19,10 +19,22 @@ pub async fn hello_service() -> Json<HelloState> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use axum::Json;
+
+    fn init_tracing() {
+        let _ = tracing_subscriber::fmt()
+            .with_env_filter("info")
+            .with_test_writer() // directs output to test logs
+            .try_init(); // prevent panicking if already initialized
+    }
 
     #[tokio::test]
-    async fn test_hello_service() {
-        let response = hello_service().await;
-        assert_eq!(response.message, "From the service layer");
+    async fn test_hello_service_response_structure() {
+        let result = hello_service().await;
+        let data = result.0;
+
+        assert_eq!(data.name, "My Name");
+        assert_eq!(data.message, "From the service layer");
+        assert!(!data.id.is_empty());
     }
 }
